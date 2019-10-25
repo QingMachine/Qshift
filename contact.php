@@ -18,7 +18,7 @@
         <form method="post" action="">
             <p>
                 <label for="name">Name:</label>
-                <input name="name" id="name" type="text">
+                <input name="name" id="name" type="text" value="Qing He">
             </p>
             <p>
                 <label for="email">Email:</label>
