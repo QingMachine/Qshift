@@ -1,10 +1,11 @@
 <?php include './includes/title.php'; ?>
+<?php require './includes/DynaSel.php'; ?>
 <!DOCTYPE HTML>
 <html>
 <head>
     <meta charset="utf-8">
     <title>Q Shift Scheduler<?= $title ?></title>
-    <link href="styles/journey.css" rel="stylesheet" type="text/css">
+    <link href="styles/sft.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <header>
@@ -18,24 +19,9 @@
 <div id="content">
 
 <form action="" method="post">
-
+<?php require './includes/connDB.php'; ?>
 <?php
-//connect DB
-$servername = "localhost";
-$username = "root";
-$password = "qing";
-$dbname0 = "myDB";
-$dbname = "sft";
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) 
-   {die("Connection failed: " . $conn->connect_error);} 
-   //echo "Connected successfully";
 
-if (!$conn) 
-   {die("Connection failed: " . mysqli_connect_error());}
-
-//set defaults of pattern 
 $emid = "Qing";
 $workt = 0;
 $wweek = 1;
@@ -70,18 +56,21 @@ $hours = array (1=>"00","01","02","03","04","05","06","07",
               "16","17","18","19","20","21","22","23");
 $curYear = date('Y');
 $currYearKey=array_search($curYear, $years );
-//echo '<form method="post" action="">';
+$curWeek = date('W');
+$curWeekKey=array_search($curWeek, $weeks );
+$curMonth = date('M');
+$curMonthKey=array_search($curWeek, $weeks );
 
 
 
 echo '<input type="submit" name="load" value="Load Project">';
-echo  dynamic_select($projects, 'project_load', '',8)."  ";
-echo  dynamic_select($years, 'year_load', '',$currYearKey);
-echo  dynamic_select($weeks, 'pattern_load', '',25);
+echo  dyna_sel($projects, 'project_load', '',8)."  ";
+echo  dyna_sel($years, 'year_load', '',$currYearKey);
+echo  dyna_sel($weeks, 'pattern_load', '',$curWeekKey);
 echo '<input type="submit" name="assign" value="Save As">';
-echo  dynamic_select($projects, 'project_save', '',8)."  ";
-echo  dynamic_select($years, 'year_save', '',$currYearKey);     
-echo  dynamic_select($weeks, 'week_save', '',26) ;
+echo  dyna_sel($projects, 'project_save', '',8)."  ";
+echo  dyna_sel($years, 'year_save', '',$currYearKey);     
+echo  dyna_sel($weeks, 'week_save', '',$curWeekKey+1) ;
 
   
 echo "<br>";
@@ -105,7 +94,7 @@ if(isset($_POST['load']))
         
     echo "<table border =\"1\" style='border-collapse: collapse'>";
     echo "<tr> \n";
-    echo "<td height=30px width=30px bgcolor=#eee7e0>/Date/ /Time/</td>";
+    echo "<td height=30px width=30px bgcolor=#eee7e0>- -Wk/Yr- -M-D- Time:::</td>";
     foreach ($days as $dkey=>$dday)
        {//$dday="tuesday";
          //echo "$dkey";
@@ -117,7 +106,7 @@ if(isset($_POST['load']))
 	echo "</table>";
           
    foreach ($hours as $hhour)            
-     {echo str_repeat('&nbsp;', 3). $hhour."  ::";
+     {echo str_repeat('&nbsp;', 3). $hhour."  ::: ";
            foreach ($days as $dday) 
               { $HourID=$yyear.$wweek.$dday.$hhour; //echo "$HourID";
                 $sql = "SELECT employee_Code FROM shift 
@@ -135,7 +124,7 @@ if(isset($_POST['load']))
                    {$curr_guy=10;}
                 $shift="shift" . $hhour .$dday;    
                 //echo $curr_guy;                   
-                echo dynamic_select_a($guys, $shift, '', $curr_guy);} //echo $q++ ;
+                echo dyna_sel_a($guys, $shift, '', $curr_guy);} //echo $q++ ;
             echo "<br>";}       
          echo "<br>";
         
@@ -194,7 +183,7 @@ if(isset($_POST['assign']))
                        ('$emid', '$hhour', '$wweek', '$yyear', '$ddate', 
                   '$mmonth', '$dday','$HourID','$pproject','$corp')";}
                       
-                   echo dynamic_select($guys, $shift, '', $emid);
+                   echo dyna_sel($guys, $shift, '', $emid);
                     
                     if ($conn->query($sql) === TRUE) 
                       {$last_id = $conn->insert_id;
@@ -202,9 +191,7 @@ if(isset($_POST['assign']))
                        } 
                     else 
                        {echo "Error: " . $sql . "<br>" . $conn->error;}}
-        
-                                            
-                
+      
                 echo "<br>";}
       
         echo "<br>";       
@@ -216,61 +203,7 @@ if(isset($_POST['assign']))
     
      mysqli_close($conn);
     
-   
-function dynamic_select($the_array, $element_name, $label = '', $init_value) 
-   {  //echo $init_value;
-       $menu = '';
-    if ($label != '') $menu .= '
-        <label for="'.$element_name.'">'.$label.'</label>';
-    $menu .= '
-    	<select name="'.$element_name.'" id="'.$element_name.'">';
   
-    if (!isset($_REQUEST[$element_name])) 
-       {$curr_val = $init_value;}
-       //echo "a".$curr_val;
-    else 
-       {$curr_val = $_REQUEST[$element_name];}
-        //echo $element_name;
-        //echo "b". $curr_val;
-    
-    foreach ($the_array as $key => $value) 
-       {$menu .= '
-			<option value="'.$key.'"';            
-        if ($key == $curr_val) $menu .= ' selected="selected"';
-        $menu .= '>'.$value.'</option>';
-        }
-    $menu .= '
-    	</select>';
-    return $menu;}
-    
-function dynamic_select_a($the_array, $element_name, $label = '', $init_value) 
-   {  //echo $init_value;
-       $menu = '';
-    if ($label != '') $menu .= '
-        <label for="'.$element_name.'">'.$label.'</label>';
-    $menu .= '
-    	<select name="'.$element_name.'" id="'.$element_name.'">';
-  
-    if (!isset($_REQUEST[$element_name])) 
-       {$curr_val = $init_value;}
-       //echo "a".$curr_val;
-    else 
-       {$curr_val = $_REQUEST[$element_name];
-        $curr_val = $init_value;}
-        //echo $element_name;
-        //echo "b". $curr_val;
-    
-    foreach ($the_array as $key => $value) 
-       {$menu .= '
-			<option value="'.$key.'"';            
-        if ($key == $curr_val) $menu .= ' selected="selected"';
-        $menu .= '>'.$value.'</option>';
-        }
-    $menu .= '
-    	</select>';
-    return $menu;}
-
-//echo dynamic_select($wk, 'week', 'Step2: assign the pattern to week :') ."<br>";
 ?>
 
 </div> <!-- end mainContainer -->
