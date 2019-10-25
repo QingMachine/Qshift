@@ -1,10 +1,11 @@
 <?php include './includes/title.php'; ?>
+<?php require './includes/DynaSel.php'; ?>
 <!DOCTYPE HTML>
 <html>
 <head>
     <meta charset="utf-8">
     <title>Q Shift Scheduler<?= $title ?></title>
-    <link href="styles/journey.css" rel="stylesheet" type="text/css">
+    <link href="styles/sft.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <header>
@@ -64,13 +65,13 @@ $curMonth = date('M');
 $curMonthKey=array_search($curWeek, $weeks );
 
 echo '<input type="submit" name="load" value="Create Report">';
-echo  dynamic_select($projects, 'project_load', '',8)."  ";
-//echo  dynamic_select($monthss, 'monthly_load', '',0)."  ";
-echo  dynamic_select($years, 'year_start', '',$curYearKey);
-echo  dynamic_select($weeks, 'week_start', '',$curWeekKey)."-";
-echo  dynamic_select($years, 'year_stop', '',$curYearKey);     
-echo  dynamic_select($weeks, 'week_stop', '',$curWeekKey+2) ;
-//echo  dynamic_select($guys, 'guy_load', '',10)."  ";
+echo  dyna_sel($projects, 'project_load', '',8)."  ";
+//echo  dyna_sel($monthss, 'monthly_load', '',0)."  ";
+echo  dyna_sel($years, 'year_start', '',$curYearKey);
+echo  dyna_sel($weeks, 'week_start', '',$curWeekKey-4)."-";
+echo  dyna_sel($years, 'year_stop', '',$curYearKey);     
+echo  dyna_sel($weeks, 'week_stop', '',$curWeekKey+1) ;
+//echo  dyna_sel($guys, 'guy_load', '',10)."  ";
 
 
   
@@ -192,32 +193,6 @@ echo '</form>';  //this form is used to set a pattern
 mysqli_close($conn);
     
    
-function dynamic_select($the_array, $element_name, $label = '', $init_value) 
-   {  //echo $init_value;
-       $menu = '';
-    if ($label != '') $menu .= '
-        <label for="'.$element_name.'">'.$label.'</label>';
-    $menu .= '
-    	<select name="'.$element_name.'" id="'.$element_name.'">';
-  
-    if (!isset($_REQUEST[$element_name])) 
-       {$curr_val = $init_value;}
-       //echo "a".$curr_val;
-    else 
-       {$curr_val = $_REQUEST[$element_name];}
-        //echo $element_name;
-        //echo "b". $curr_val;
-    
-    foreach ($the_array as $key => $value) 
-       {$menu .= '
-			<option value="'.$key.'"';            
-        if ($key == $curr_val) $menu .= ' selected="selected"';
-        $menu .= '>'.$value.'</option>';
-        }
-    $menu .= '
-    	</select>';
-    return $menu;}
-    
 
 ?>
 
