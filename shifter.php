@@ -20,18 +20,22 @@
 
 <form action="" method="post">
 <?php require './includes/connDB.php'; ?>
+<?php require './includes/ReadProjects.php'; ?>
 <?php
 
 $emid = "Qing";
-$workt = 0;
+//$workt = 0;
 $wweek = 1;
-$years =array("2018","2019","2020","2021");
+$years =array("2018","2019","2020","2021","2022");
 $corp="Qing";
-echo "<h2>".$corp ."'s Shifter </h2>";
-$projects =array("P18N01","P18N02","P18N03","P18N04",
+echo "<h2>".$CorpID ."'s Shifter </h2>";
+/*$projects =array("P18N01","P18N02","P18N03","P18N04",
                  "P19N01","P19N02","P19N03","P19N04",
                  "P20N01","P20N02","P20N03","P20N04",
                  "P21N01","P21N02","P21N03","P21N04");
+*/
+$projects=$Projects;
+//print_r($Projects);
 $ddate = "20190101";
 $iid = 2;
 $mmonth = 1;
@@ -46,8 +50,7 @@ $weeks = array(1=>
             "21","22","23","24","25","26","27","28","29","30",
             "31","32","33","34","35","36","37","38","39","40",
             "41","42","43","44","45","46","47","48","49","50",
-            "51","52","53","54",
-            "101","102","103","104","105","106","107","108","109","100");
+            "51","52","53","54");
             
 $curr_pattern = 9;
 
