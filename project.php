@@ -15,68 +15,49 @@
 <?php require './includes/menu.php'; ?>
 <?php require './includes/connDB.php'; ?>
 <?php require './includes/DynaSel.php'; ?>
-<?php
-    $Projects=array();
-    $Projects[]="NewProject";
-    $CorpID="Qing AB";
-    $sql = "SELECT ProjectCode FROM project WHERE corpID = '$CorpID'" ; 
-    $result = $conn->query($sql);
-    if (mysqli_num_rows($result) > 0) 
-        { //echo "yes";// output data of each row
-        $row = mysqli_fetch_assoc($result); //echo $row["ProjectCode"];
-        array_push($Projects,$row["ProjectCode"]);}
-        
-?>  
+<?php require './includes/ReadProjects.php'; ?>
+<?php array_push($Projects,"NewProject");?>  
  
- <p> <?php echo $CorpID ?></p>
+<p> <?php echo $CorpID ?></p>
 
 <main>
  
 <?php
-//print_r($Projects);
-
-   
+//print_r($Projects);   
 echo '<form method="post" action="">';
 echo '<p>';
-      echo '<label for="name">Select a Project:</label>' . dyna_sel($Projects, 'Project_Selected', '',0)."  ";
+      echo '<label for="name">Select a Project:</label>' . dyna_sel($Projects, 'Project_Selected', '',1)."  ";
       echo '<input type="submit" name="Edit" value="Edit Project">';
 echo '</p>';    
 
 $ProjectCode=$Projects[0];
-$ProjectName="New Projet Name";
-$ProjectDescription="New Project Description:";
+$ProjectName="The Projet: Name";
+$ProjectDescription="Project Description:";
 
 if(isset($_POST['Edit'])) 
-    { 
-
-     $ProjectCode=$Projects[$_POST["Project_Selected"]];
-     //echo $pproject;
-     
-     
-     if ($ProjectCode<>"NewProject")
-        { $sql = "SELECT * FROM project WHERE ProjectCode = $ProjectCode"; 
-          $result = $conn->query($sql);
-            if ($conn->query($sql) === TRUE) 
-               { $row = mysqli_fetch_assoc($result); 
-                 $ProjectCode=$row["ProjectCode"];
-                 $ProjectName=$row["ProjectNme"];
-                 $ProjectDescription=$row["ProjectDescription"];}}         
-                       
+    { $ProjectCode=$Projects[$_POST["Project_Selected"]];
+      //echo $ProjectCode;
+      if ($ProjectCode<>"NewProject")
+         {$sql = "SELECT * FROM project WHERE ProjectCode = '$ProjectCode' and corpID='$CorpID'"; 
+           if ($result = $conn->query($sql)) 
+              {while ($row = mysqli_fetch_assoc($result))
+                  {$ProjectCode=$row["ProjectCode"];
+                   //echo $ProjectCode;
+                   $ProjectName=$row['ProjectName'];
+                   $ProjectDescription=$row["ProjectDescription"];}
+            mysqli_free_result($result); 
+        } }
+                     
      else 
         { $ProjectCode="GiveNewProjectCode(within 6 letters)";
-          $ProjectName="New Projet Name";
-          $ProjectDescription="New Project Description:"; }}
-    
+          $ProjectName="The Projet: Name";
+          $ProjectDescription=$ProjectName."Project Description:"; }}
     
 ?>
 
 <?php  
-
 if(isset($_POST['Save'])) 
-    {
-        
- 
-        $ProjectCode=$_POST["Pcode"];
+    {   $ProjectCode=$_POST["Pcode"];
         $ProjectName=$_POST["Pname"];
         $ProjectDescription=$_POST["Pdesc"]; 
         //print_r($Projects);
@@ -87,33 +68,15 @@ if(isset($_POST['Save']))
         VALUES ('$CorpID','$ProjectCode','$ProjectCode','$ProjectDescription')";}
               
               //echo "here";}
-              
+                   
     if (in_array($ProjectCode,$Projects) and strlen($ProjectCode)==6 )
          {$sql = "UPDATE project SET 
           corpID='$CorpID', ProjectName='$ProjectName', ProjectDescription='$ProjectDescription' 
           WHERE ProjectCode='$ProjectCode'";}
-            
-           
-    else 
-         {echo 'Try another ProjectCode ';}        
+          
+          
  
-    $result = $conn->query($sql);
-   if ($conn->query($sql) === TRUE) 
-               {$last_id = $conn->insert_id;
-                  //echo "New record created successfully, Last inserted ID is: " . $last_id;
-                       } 
-                    else 
-                       {//echo "Error: " . $sql . "<br>" . $conn->error;
-                       }
-      
-        
-
-      //echo $ProjectCode;
-        //print_r($Projects);
-        //echo $ProjectName;
-        //echo $ProjectDecription; 
- 
-    }   
+    $result = $conn->query($sql);  }   
          
 ?>
         
@@ -142,8 +105,8 @@ if(isset($_POST['Save']))
  
 
  </main>
-  <?php include './includes/footer.php'; ?>
-   mysqli_close($conn);
+  <?php include './includes/footer.php'; 
+   mysqli_close($conn);?>
 </div>
 </body>
 </html>
