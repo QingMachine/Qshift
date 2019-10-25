@@ -20,6 +20,7 @@
 
 <form action="" method="post">
 <?php require './includes/connDB.php'; ?>
+<?php require './includes/ReadProjects.php'; ?>
 <?php
 
 //set defaults of pattern 
@@ -28,11 +29,14 @@ $workt = 0;
 $wweek = 1;
 $years =array("2018","2019","2020","2021");
 $corp="Qing";
-echo "<h2>".$corp ."'s Shifter </h2>";
+echo "<h2>".$CorpID ."'s Shifter </h2>";
+/*
 $projects =array("P18N01","P18N02","P18N03","P18N04",
                  "P19N01","P19N02","P19N03","P19N04",
                  "P20N01","P20N02","P20N03","P20N04",
                  "P21N01","P21N02","P21N03","P21N04");
+*/
+$projects =$Projects;
 $ddate = "20190101";
 $monthss =array(0=>"   ",
                    "Jan","Feb","Mar","Apr",
