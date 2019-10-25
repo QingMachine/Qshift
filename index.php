@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>Qing Machine <?= $title; ?></title>
-    <link href="styles/journey.css" rel="stylesheet" type="text/css">
+    <link href="styles/sft.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
