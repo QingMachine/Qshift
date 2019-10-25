@@ -2,18 +2,18 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Japan Journey</title>
-    <link href="styles/journey.css" rel="stylesheet" type="text/css">
+    <title>Project</title>
+    <link href="styles/sft.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
 <header>
-    <h1>Japan Journey </h1>
+    <h1>Project </h1>
 </header>
 <div id="wrapper">
     <?php require './includes/menu.php'; ?>
     <main>
-        <h2>Contact Qing  </h2>
+        <h2>Project Edit  </h2>
         <p>Om du ha vill, skicka mig.</p>
         <form method="post" action="">
             <p>
