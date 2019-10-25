@@ -13,7 +13,7 @@
 <div id="wrapper">
     <?php require './includes/menu.php'; ?>
     <main>
-        <h2>Project Edit  </h2>
+        <h2>Contact Qing</h2>
         <p>Om du ha vill, skicka mig.</p>
         <form method="post" action="">
             <p>
@@ -22,7 +22,7 @@
             </p>
             <p>
                 <label for="email">Email:</label>
-                <input name="email" id="email" type="text">
+                <input name="email" id="email" type="text" value="amc36108@gmail.com">
             </p>
             <p>
                 <label for="comments">Comments:</label>
