@@ -1,9 +1,4 @@
-/* Styles defined in the body remove any default margin or padding on the page.
- * Some browsers add margin, others add padding, so setting them both to zero means the page offset looks the same in all browsers.
- * The background rule sets the page background to white with the image of Mount Fuji in the top left.
- * The background image also contains the main page heading in both Japanese and English.
- * The text is set to a very dark gray, which is easier on the eyes than black.
- * The font-family applies to all text on the page, except where specifically overridden by other rules. */
+
 
 body {
 	margin: 0;
@@ -39,21 +34,18 @@ p {
     line-height: 1.4;
 }
 
-/* Because the page heading "Japan Journey" is embedded in the background image, the page needs an HTML heading
- * that won't appear on screen. This makes the page more user-friendly to search engines and screen readers.
- * By setting the position as absolute with a top of minus 100px, the page heading is safely moved offscreen. */
+
 
 header {
     position: absolute;
     top: -100px;
 }
 
-/* The wrapper div wraps the rest of the page content and adds a 90px top margin so that it clears the "Japan Journey"
- * page title in the background image. */
+
 
 #wrapper {
 	padding:50px 0 45px;
-	background: #fff url(../images/fuji.jpg) top left no-repeat;
+	background: #fff url(../images/background.jpg) top left no-repeat;
 	width:1000px;
 	margin:0 auto;
 	position:relative;
@@ -62,7 +54,7 @@ header {
 	min-height:450px;
 }
 
-/* The navigation menu is contained in an absolutely positioned div 140px from the top of the page and 60px from the left margin. */
+
 
 nav {
     position: absolute;
