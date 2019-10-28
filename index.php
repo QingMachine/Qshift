@@ -17,7 +17,7 @@
         <h2>Qing helps shift awesome simple!</h2>
         <br><br><br><br>
         <figure>
-            <img src="images/basin.jpg" alt="Water basin at Ryoanji temple" width="350" height="237" class="picBorder">
+            <img src="images/begin.jpg" alt="Worry" width="365 height="665" class="picBorder">
             <figcaption>Quite Quick!!!  Do it now!</figcaption>
         </figure>
         <p></p>
