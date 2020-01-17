@@ -65,9 +65,9 @@ if(isset($_POST['Save']))
         {//generate new record
               $sql = "INSERT INTO project 
                     (corpID,ProjectCode,ProjectName,ProjectDescription)
-        VALUES ('$CorpID','$ProjectCode','$ProjectCode','$ProjectDescription')";}
+        VALUES ('$CorpID','$ProjectCode','$ProjectCode','$ProjectDescription')";
               
-              //echo "here";}
+          echo "";}
                    
     if (in_array($ProjectCode,$Projects) and strlen($ProjectCode)==6 )
          {$sql = "UPDATE project SET 
@@ -78,6 +78,20 @@ if(isset($_POST['Save']))
  
     $result = $conn->query($sql);  }   
          
+?>
+
+<?php  
+
+if(isset($_POST['Remove'])) 
+    { $ProjectCode=$Projects[$_POST["Project_Selected"]];
+      echo $ProjectCode;
+      if ($ProjectCode<>"NewProject")
+         {$sql = "DELETE FROM project WHERE ProjectCode = '$ProjectCode' and corpID='$CorpID'"; }
+          
+	$result = $conn->query($sql);}
+                     
+ 
+    
 ?>
         
       <p>
@@ -100,7 +114,10 @@ if(isset($_POST['Save']))
      <p>
      <input name="Save" type="submit" value="Save Project">
      </p>  
-   
+	 
+	 <p>
+     <input name="Remove" type="submit" value="Remove Project">
+     </p>  
  </form>
  
 
